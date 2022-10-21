@@ -7,7 +7,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { NavigationContainer, DefaultTheme, DarkTheme, useRoute } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
-import { ColorSchemeName, View } from 'react-native';
+import { ColorSchemeName, TouchableOpacity, View } from 'react-native';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
@@ -22,6 +22,8 @@ import LinkingConfiguration from './LinkingConfiguration';
 import { Octicons, MaterialCommunityIcons, Fontisto, MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import ChatRoom from '../screens/ChatRoom';
+import { Text } from '../components/Themed';
+import { Auth } from 'aws-amplify';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -49,9 +51,12 @@ function RootNavigator() {
       <Stack.Screen name="Root" component={TopTabNavigator} options={{
         title: "Chat App",
         headerRight: () => (
-          <View style={{ flexDirection: 'row', width: 60, justifyContent: 'space-between' }}>
-            <Octicons name='search' size={22} color={'white'} />
-            <MaterialCommunityIcons name='dots-vertical' size={22} color={'white'} />
+          <View style={{ flexDirection: 'row', width: 150, paddingRight: 50, justifyContent: 'space-between', alignItems: "center" }}>
+            <Octicons name='search' size={22} color={'white'} style={{ paddingRight: 10 }} />
+            {/* <MaterialCommunityIcons name='dots-vertical' size={22} color={'white'} /> */}
+            <TouchableOpacity style={{ justifyContent: "center", paddingVertical: 10, backgroundColor: "blue", borderRadius: 10, height: 30, width: 80 }} onPress={() => Auth.signOut()}>
+              <Text style={{ fontSize: 14, fontWeight: "bold", color: "white", textAlign: "center" }}>Sign out</Text>
+            </TouchableOpacity>
           </View>
         ),
       }} />
