@@ -4,38 +4,28 @@ import { API, graphqlOperation } from 'aws-amplify';
 import { Text, View } from '../components/Themed';
 import ContactListItem from '../components/ContactListItem';
 
-// import { listTodos } from '../queries';
+import { listUsers } from '../src/graphql/queries';
 import { useEffect, useState } from "react";
 
 export default function ContactsScreen() {
 
     const [users, setUsers] = useState([]);
 
-    // useEffect(() => {
-    //     const fetchUsers = async () => {
-    //         try {
-    //             const usersData = await API.graphql(
-    //                 graphqlOperation(
-    //                     listTodos
-    //                 )
-    //             )
-    //             setUsers(usersData.data.listTodos.items);
-    //         } catch (e) {
-    //             console.log(e);
-    //         }
-    //     }
-    //     fetchUsers();
-    // }, [])
+    useEffect(() => {
+        API.graphql(graphqlOperation(listUsers)).then((result) => {
+            setUsers(result.data.listUsers.items);
+        })
+    }, [])
 
     return (
         <View style={styles.container}>
-            {/* <FlatList
+            <Text>List contact</Text>
+            <FlatList
                 style={{ width: '100%' }}
                 data={users}
                 renderItem={({ item }) => <ContactListItem user={item} />}
                 keyExtractor={(item) => item.id}
-            /> */}
-            <Text>List contact</Text>
+            />
         </View>
     );
 }

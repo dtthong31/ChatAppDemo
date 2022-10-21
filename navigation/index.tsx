@@ -120,7 +120,7 @@ function TopTabNavigator() {
         }}
       />
       <TopTab.Screen
-        name="Status"
+        name="Contact"
         component={TabTwoScreen}
         options={{
           // title: 'Chat',

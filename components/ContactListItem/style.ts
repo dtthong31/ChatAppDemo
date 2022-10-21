@@ -11,7 +11,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     midContainer: {
-        justifyContent: 'space-around'
+        flex: 1,
+        justifyContent: 'space-around',
     },
     avatar: {
         width: 60,
