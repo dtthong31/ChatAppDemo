@@ -14,10 +14,10 @@ import {
     graphqlOperation,
     Auth,
 } from "aws-amplify";
-// import {
-//     createTodo,
-//     createChatRoomUser
-// } from '../../mutations';
+import {
+    createChatRoom,
+    createUserChatRoom
+} from '../../src/graphql/mutations';
 
 export type ContactListItemProps = {
     user: User;
@@ -28,65 +28,40 @@ const ContactListItem = (props: ContactListItemProps) => {
 
     const navigation = useNavigation();
 
-    // const onClick = async () => {
-    //     try {
+    const onClick = async () => {
+        console.log("onPress");
 
-    //         //  1. Create a new Chat Room
-    //         const newChatRoomData = await API.graphql(
-    //             graphqlOperation(
-    //                 createTodo, {
-    //                 input: {
-    //                     lastMessageID: "zz753fca-e8c3-473b-8e85-b14196e84e16"
-    //                 }
-    //             }
-    //             )
-    //         )
+        //  1. Create a new Chat Room
+        const newChatRoomData = await API.graphql(
+            graphqlOperation(createChatRoom, { input: {} })
+        );
+        console.log(newChatRoomData);
+        // if (!newChatRoomData.data?.createChatRoom) {
+        //     console.log("Error creating the chat error");
+        // }
+        // const newChatRoom = newChatRoomData.data?.createChatRoom;
 
-    //         if (!newChatRoomData.data) {
-    //             console.log(" Failed to create a chat room");
-    //             return;
-    //         }
+        // // Add the clicked user to the ChatRoom
+        // await API.graphql(
+        //     graphqlOperation(createUserChatRoom, {
+        //         input: { chatRoomID: newChatRoom.id, userID: user.id },
+        //     })
+        // );
 
-    //         const newChatRoom = newChatRoomData.data.createChatRoom;
+        // // Add the auth user to the ChatRoom
+        // const authUser = await Auth.currentAuthenticatedUser();
+        // await API.graphql(
+        //     graphqlOperation(createUserChatRoom, {
+        //         input: { chatRoomID: newChatRoom.id, userID: authUser.attributes.sub },
+        //     })
+        // );
 
-    //         // 2. Add `user` to the Chat Room
-    //         await API.graphql(
-    //             graphqlOperation(
-    //                 createChatRoomUser, {
-    //                 input: {
-    //                     userID: user.id,
-    //                     chatRoomID: newChatRoom.id,
-    //                 }
-    //             }
-    //             )
-    //         )
-
-    //         //  3. Add authenticated user to the Chat Room
-    //         const userInfo = await Auth.currentAuthenticatedUser();
-    //         await API.graphql(
-    //             graphqlOperation(
-    //                 createChatRoomUser, {
-    //                 input: {
-    //                     userID: userInfo.attributes.sub,
-    //                     chatRoomID: newChatRoom.id,
-    //                 }
-    //             }
-    //             )
-    //         )
-
-    //         navigation.navigate('ChatRoom', {
-    //             id: newChatRoom.id,
-    //             name: "Hardcoded name",
-    //         })
-
-    //     } catch (e) {
-    //         console.log(e);
-    //     }
-    // }
+        // // navigate to the newly created ChatRoom
+        // navigation.navigate("Chat", { id: newChatRoom.id });
+    }
 
     return (
-        <TouchableWithoutFeedback>
-            {/* // onPress={onClick}> */}
+        <TouchableWithoutFeedback onPress={onClick}>
             <View style={styles.container}>
                 <View style={styles.lefContainer}>
                     <Image source={{ uri: user.image }} style={styles.avatar} />

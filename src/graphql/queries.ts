@@ -1,3 +1,4 @@
+/* tslint:disable */
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
@@ -34,7 +35,7 @@ export const getChatRoom = /* GraphQL */ `
         nextToken
         startedAt
       }
-      LastMessage {
+      LasteMessage {
         id
         text
         chatroomID
@@ -50,7 +51,7 @@ export const getChatRoom = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
-      chatRoomLastMessageId
+      chatRoomLasteMessageId
     }
   }
 `;
@@ -71,7 +72,7 @@ export const listChatRooms = /* GraphQL */ `
           nextToken
           startedAt
         }
-        LastMessage {
+        LasteMessage {
           id
           text
           chatroomID
@@ -87,7 +88,7 @@ export const listChatRooms = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
-        chatRoomLastMessageId
+        chatRoomLasteMessageId
       }
       nextToken
       startedAt
@@ -117,7 +118,7 @@ export const syncChatRooms = /* GraphQL */ `
           nextToken
           startedAt
         }
-        LastMessage {
+        LasteMessage {
           id
           text
           chatroomID
@@ -133,7 +134,7 @@ export const syncChatRooms = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
-        chatRoomLastMessageId
+        chatRoomLasteMessageId
       }
       nextToken
       startedAt
@@ -335,7 +336,7 @@ export const getUserChatRoom = /* GraphQL */ `
           nextToken
           startedAt
         }
-        LastMessage {
+        LasteMessage {
           id
           text
           chatroomID
@@ -351,7 +352,7 @@ export const getUserChatRoom = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
-        chatRoomLastMessageId
+        chatRoomLasteMessageId
       }
       user {
         id
@@ -398,7 +399,7 @@ export const listUserChatRooms = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
-          chatRoomLastMessageId
+          chatRoomLasteMessageId
         }
         user {
           id
@@ -446,7 +447,7 @@ export const syncUserChatRooms = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
-          chatRoomLastMessageId
+          chatRoomLasteMessageId
         }
         user {
           id

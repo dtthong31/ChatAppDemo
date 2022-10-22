@@ -1,3 +1,4 @@
+/* tslint:disable */
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
@@ -34,7 +35,7 @@ export const onCreateChatRoom = /* GraphQL */ `
         nextToken
         startedAt
       }
-      LastMessage {
+      LasteMessage {
         id
         text
         chatroomID
@@ -50,7 +51,7 @@ export const onCreateChatRoom = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
-      chatRoomLastMessageId
+      chatRoomLasteMessageId
     }
   }
 `;
@@ -87,7 +88,7 @@ export const onUpdateChatRoom = /* GraphQL */ `
         nextToken
         startedAt
       }
-      LastMessage {
+      LasteMessage {
         id
         text
         chatroomID
@@ -103,7 +104,7 @@ export const onUpdateChatRoom = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
-      chatRoomLastMessageId
+      chatRoomLasteMessageId
     }
   }
 `;
@@ -140,7 +141,7 @@ export const onDeleteChatRoom = /* GraphQL */ `
         nextToken
         startedAt
       }
-      LastMessage {
+      LasteMessage {
         id
         text
         chatroomID
@@ -156,7 +157,7 @@ export const onDeleteChatRoom = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
-      chatRoomLastMessageId
+      chatRoomLasteMessageId
     }
   }
 `;
@@ -355,7 +356,7 @@ export const onCreateUserChatRoom = /* GraphQL */ `
           nextToken
           startedAt
         }
-        LastMessage {
+        LasteMessage {
           id
           text
           chatroomID
@@ -371,7 +372,7 @@ export const onCreateUserChatRoom = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
-        chatRoomLastMessageId
+        chatRoomLasteMessageId
       }
       user {
         id
@@ -418,7 +419,7 @@ export const onUpdateUserChatRoom = /* GraphQL */ `
           nextToken
           startedAt
         }
-        LastMessage {
+        LasteMessage {
           id
           text
           chatroomID
@@ -434,7 +435,7 @@ export const onUpdateUserChatRoom = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
-        chatRoomLastMessageId
+        chatRoomLasteMessageId
       }
       user {
         id
@@ -481,7 +482,7 @@ export const onDeleteUserChatRoom = /* GraphQL */ `
           nextToken
           startedAt
         }
-        LastMessage {
+        LasteMessage {
           id
           text
           chatroomID
@@ -497,7 +498,7 @@ export const onDeleteUserChatRoom = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
-        chatRoomLastMessageId
+        chatRoomLasteMessageId
       }
       user {
         id
