@@ -13,9 +13,8 @@ Amplify.configure(awsconfig)
 import { withAuthenticator } from 'aws-amplify-react-native';
 import { Auth, API, graphqlOperation } from 'aws-amplify';
 
-// //  Graphql
-// import { getTodo } from './queries';
-// import { createTodo } from './mutations';
+import { getUser } from "./src/graphql/queries"
+import { createUser } from './src/graphql/mutations';
 
 const randomImage = [
   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwCZE-3NGtzDSPHzbwo_9FyPvfkCwAVWbW6Q&usqp=CAU",
@@ -28,52 +27,35 @@ const randomImage = [
 function App() {
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
-  // const getRandomImages = () => {
-  //   return randomImage[Math.floor(Math.random() * randomImage.length)];
-  // }
-  // useEffect(() => {
-  //   const fecthUser = async () => {
-  //     // get Authenticated user from auth
-  //     const userInfo = await Auth.currentAuthenticatedUser({ bypassCachee: true });
+  const getRandomImages = () => {
+    return randomImage[Math.floor(Math.random() * randomImage.length)];
+  }
+  useEffect(() => {
+    const syncUser = async () => {
+      // get Authenticated user from auth
+      const authUser = await Auth.currentAuthenticatedUser({ bypassCachee: true });
+      console.log("Auth: ", authUser);
 
-  //     // get the user from Backendwith the user id from auth
-  //     if (userInfo) {
-  //       const userData = await API.graphql(
-  //         graphqlOperation(
-  //           getTodo,
-  //           {
-  //             id: userInfo.attributes.sub,
-  //           }
-  //         )
-  //       )
-  //       if (userData.data.getTodo) {
-  //         console.log("user is already registered in database");
-  //         return;
+      // get the user from Backendwith the user id from auth
+      const userData = await API.graphql(graphqlOperation(getUser, { id: authUser.attributes.sub }))
+      console.log("userData:", userData);
+      if (userData.data.getUser) {
+        console.log("User already exists in DB");
+        return
+      }
+      const newUser = {
+        id: authUser.attributes.sub,
+        name: authUser.username,
+        status: "I'm using App"
+      };
+      console.log("newUser", newUser);
 
-  //       }
-  //       console.log(userData);
+      //  if there is no user in db with the id, then create one 
+      await API.graphql(graphqlOperation(createUser, { input: newUser }))
+    }
 
-  //       const newUser = {
-  //         id: userInfo.attributes.sub,
-  //         name: userInfo.username,
-  //         imageUri: getRandomImages(),
-  //         status: "Hey, I'm available.",
-  //       }
-
-  //       await API.graphql(
-  //         graphqlOperation(
-  //           createTodo,
-  //           {
-  //             input: newUser
-  //           }
-  //         )
-  //       )
-  //     }
-  //     //  if there is no user in db with the id, then create one 
-  //   }
-
-  //   fecthUser();
-  // })
+    syncUser();
+  })
 
 
   if (!isLoadingComplete) {
