@@ -1,43 +1,49 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native'
-import { MaterialIcons, Entypo, FontAwesome, Fontisto, MaterialCommunityIcons } from '@expo/vector-icons';
+import { View, StyleSheet, TextInput, TouchableOpacity } from 'react-native'
+import { MaterialIcons, Entypo, FontAwesome, Fontisto } from '@expo/vector-icons';
 import Colors from '../../constants/Colors';
-import ChatData from '../../data/Chat'
-import { Message } from '../../types';
-import moment from 'moment';
+import { API, Auth, graphqlOperation } from 'aws-amplify';
+import { createMessage, updateChatRoom } from '../../src/graphql/mutations';
 
 
-export default function InputChat(props: any) {
-    const [message, setMessage] = useState<string>();
+const InputChat = ({ chatRoomID }) => {
 
-    const onMicPress = () => {
-        console.warn("Micro")
-    }
+    const [text, setText] = useState("");
 
-    const onPress = () => {
-        if (!message) {
-            onMicPress();
-        } else {
-            let use1: Message = {
-                id: `u}`,
-                content: message,
-                createdAt: `${moment(Date.now()).format('LLL')}`,
-                user: {
-                    id: 'u1',
-                    name: 'Vadim',
-                }
-            }
-            props.onCompleteSend(use1);
-            setMessage('');
-        }
-    }
+    const onPress = async () => {
+        const authUser = await Auth.currentAuthenticatedUser();
+
+        const newMessage = {
+            chatroomID: chatRoomID.id,
+            text,
+            userID: authUser.attributes.sub,
+        };
+
+        const newMessageData = await API.graphql(
+            graphqlOperation(createMessage, { input: newMessage })
+        );
+
+        setText("");
+
+        // set the new message as LastMessage of the ChatRoom
+        await API.graphql(
+            graphqlOperation(updateChatRoom, {
+                input: {
+                    _version: chatRoomID._version,
+                    chatRoomLasteMessageId: newMessageData.data.createMessage.id,
+                    id: chatRoomID.id,
+                },
+            })
+        );
+    };
+
     return (
         <View style={styles.container}>
             <View style={styles.leftContainer}>
                 <MaterialIcons name="tag-faces" size={24} color="gray" />
                 <TextInput
-                    value={message}
-                    onChangeText={text => setMessage(text)}
+                    value={text}
+                    onChangeText={text => setText(text)}
                     style={{ marginHorizontal: 10, flex: 1 }}
                     placeholder='Input here'
                     multiline
@@ -46,7 +52,7 @@ export default function InputChat(props: any) {
                 <Fontisto name='camera' size={24} color={'gray'} />
             </View>
             <TouchableOpacity style={styles.rightContainer} onPress={onPress}>
-                {!message ?
+                {!text ?
                     <FontAwesome name="microphone" size={24} color="white" />
                     : <MaterialIcons name='send' size={24} color={'white'} />
                 }
@@ -83,3 +89,4 @@ const styles = StyleSheet.create({
     }
 })
 
+export default InputChat;

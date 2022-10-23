@@ -1,35 +1,77 @@
-import { useRoute } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
+import { API, Auth, graphqlOperation } from 'aws-amplify';
 import React, { useEffect, useState } from 'react'
-import { View, Text, FlatList, ImageBackground } from 'react-native'
+import { View, Text, FlatList, ImageBackground, ActivityIndicator } from 'react-native'
 import ChatMessage from '../components/ChatMessage';
 import InputChat from '../components/InputChat';
-import Chat from '../data/Chat';
-import { Message } from '../types';
+import { getChatRoom } from '../src/graphql/queries';
+import { onCreateMessage } from '../src/graphql/subscriptions';
 
 export default function ChatRoom() {
-    const [message, setMessage] = useState<Message[] | undefined>();
+    const [messages, setMessages] = useState([]);
+    const [myId, setMyId] = useState(null);
+
     const route = useRoute();
 
-    useEffect(() => {
-        setMessage(Chat.messages);
-    }, [])
-    const handleAddMessage = (e: Message) => {
-        let _listMessage: Message[] | undefined = message;
-        _listMessage = [e, ...message];
-        setMessage(_listMessage);
-        console.log(message);
+    const fetchMessages = async () => {
+        const messagesData = await API.graphql(
+            graphqlOperation(
+                getChatRoom, {
+                id: route.params.id,
+                sortDirection: "DESC",
+            }
+            )
+        )
 
+        console.log("FETCH MESSAGES")
+        setMessages(messagesData.data.getChatRoom.Messages.items);
     }
+
+    useEffect(() => {
+        fetchMessages();
+    }, [])
+
+    useEffect(() => {
+        const getMyId = async () => {
+            const userInfo = await Auth.currentAuthenticatedUser();
+            setMyId(userInfo.attributes.sub);
+        }
+        getMyId();
+    }, [])
+
+    useEffect(() => {
+        const subscription = API.graphql(
+            graphqlOperation(onCreateMessage)
+        ).subscribe({
+            next: (data) => {
+                const newMessage = data.value.data.onCreateMessage;
+
+                if (newMessage.userID !== route.params.id) {
+                    console.log("Message is in another room!")
+                    return;
+                }
+
+                fetchMessages();
+                setMessages([newMessage, ...messages]);
+            }
+        });
+
+        return () => subscription.unsubscribe();
+    }, [])
+
+    // console.log(`messages in state: ${messages.length}`)
+
+
     return (
         <View style={{ width: "100%", height: "100%", backgroundColor: 'gray' }}>
             <FlatList
                 style={{ width: "100%" }}
-                data={message}
-                renderItem={({ item }) => <ChatMessage messages={item} />}
+                data={messages.sort((a, b) => Date.parse(b) - Date.parse(a))}
+                renderItem={({ item }) => <ChatMessage myId={myId} messages={item} />}
                 inverted
                 keyExtractor={(index, item) => `${item}_${index}`}
             />
-            <InputChat onCompleteSend={handleAddMessage} />
+            <InputChat chatRoomID={route.params} />
         </View>
     )
 }

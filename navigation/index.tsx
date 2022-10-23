@@ -13,7 +13,7 @@ import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
-import ChatScreen from '../screens/ChatScreen';
+import ChatScreen from '../screens/ChatRoom/ChatScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
 import ContactsScreen from '../screens/Contacts'
 import { RootStackParamList, RootTabParamList } from '../types';

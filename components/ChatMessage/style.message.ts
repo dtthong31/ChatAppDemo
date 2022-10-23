@@ -18,6 +18,12 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
 
     },
+    avatar: {
+        width: 50,
+        height: 50,
+        marginRight: 15,
+        borderRadius: 50
+    },
     day: {
         alignSelf: 'flex-end',
         color: 'gray'

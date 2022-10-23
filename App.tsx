@@ -45,7 +45,7 @@ function App() {
       }
       const newUser = {
         id: authUser.attributes.sub,
-        name: authUser.username,
+        name: authUser.attributes.preferred_username,
         status: "I'm using App"
       };
       console.log("newUser", newUser);

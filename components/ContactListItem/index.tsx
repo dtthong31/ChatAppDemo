@@ -35,29 +35,32 @@ const ContactListItem = (props: ContactListItemProps) => {
         const newChatRoomData = await API.graphql(
             graphqlOperation(createChatRoom, { input: {} })
         );
-        console.log(newChatRoomData);
-        // if (!newChatRoomData.data?.createChatRoom) {
-        //     console.log("Error creating the chat error");
-        // }
-        // const newChatRoom = newChatRoomData.data?.createChatRoom;
+        console.log("Create success chatRomm", newChatRoomData);
+        if (!newChatRoomData.data?.createChatRoom) {
+            console.log("Error creating the chat error");
+        }
+        const newChatRoom = newChatRoomData.data?.createChatRoom;
 
-        // // Add the clicked user to the ChatRoom
-        // await API.graphql(
-        //     graphqlOperation(createUserChatRoom, {
-        //         input: { chatRoomID: newChatRoom.id, userID: user.id },
-        //     })
-        // );
+        // Add the clicked user to the ChatRoom
+        await API.graphql(
+            graphqlOperation(createUserChatRoom, {
+                input: { chatRoomID: newChatRoom.id, userID: user.id },
+            })
+        );
 
-        // // Add the auth user to the ChatRoom
-        // const authUser = await Auth.currentAuthenticatedUser();
-        // await API.graphql(
-        //     graphqlOperation(createUserChatRoom, {
-        //         input: { chatRoomID: newChatRoom.id, userID: authUser.attributes.sub },
-        //     })
-        // );
+        // Add the auth user to the ChatRoom
+        const authUser = await Auth.currentAuthenticatedUser();
+        await API.graphql(
+            graphqlOperation(createUserChatRoom, {
+                input: { chatRoomID: newChatRoom.id, userID: authUser.attributes.sub },
+            })
+        );
 
-        // // navigate to the newly created ChatRoom
-        // navigation.navigate("Chat", { id: newChatRoom.id });
+        // navigate to the newly created ChatRoom
+        navigation.navigate('ChatRoomScreen', {
+            id: newChatRoom.id,
+            name: user.name,
+        })
     }
 
     return (
