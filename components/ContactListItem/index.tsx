@@ -18,6 +18,7 @@ import {
     createChatRoom,
     createUserChatRoom
 } from '../../src/graphql/mutations';
+import { getCommonChatRoomWithUser } from '../../screens/services/chatRoomService';
 
 export type ContactListItemProps = {
     user: User;
@@ -30,7 +31,12 @@ const ContactListItem = (props: ContactListItemProps) => {
 
     const onClick = async () => {
         console.log("onPress");
-
+        const existingChatRoom = await getCommonChatRoomWithUser(user.id);
+        if (existingChatRoom) {
+            console.log("existingChatRoom");
+            navigation.navigate("ChatRoomScreen", { id: existingChatRoom.id, name: user.name });
+            return;
+        }
         //  1. Create a new Chat Room
         const newChatRoomData = await API.graphql(
             graphqlOperation(createChatRoom, { input: {} })
@@ -67,7 +73,7 @@ const ContactListItem = (props: ContactListItemProps) => {
         <TouchableWithoutFeedback onPress={onClick}>
             <View style={styles.container}>
                 <View style={styles.lefContainer}>
-                    <Image source={{ uri: user.image }} style={styles.avatar} />
+                    <Image source={{ uri: user.image ? user.image : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png" }} style={styles.avatar} />
 
                     <View style={styles.midContainer}>
                         <Text style={styles.username}>{user.name}</Text>

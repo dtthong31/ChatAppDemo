@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
     username: {
         fontWeight: 'bold',
         fontSize: 16,
+        color: 'white',
     },
     lastName: {
         fontSize: 16,

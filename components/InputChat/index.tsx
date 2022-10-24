@@ -26,7 +26,7 @@ const InputChat = ({ chatRoomID }) => {
         setText("");
 
         // set the new message as LastMessage of the ChatRoom
-        await API.graphql(
+       const updateChat = await API.graphql(
             graphqlOperation(updateChatRoom, {
                 input: {
                     _version: chatRoomID._version,
@@ -35,6 +35,8 @@ const InputChat = ({ chatRoomID }) => {
                 },
             })
         );
+        console.log("updateChat", updateChat);
+        
     };
 
     return (
