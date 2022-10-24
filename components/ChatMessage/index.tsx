@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react'
 import { View, Text, Image } from 'react-native'
 import { userInfo } from '../../src/graphql/queries';
 import { Message } from '../../types';
-import { userDefault } from '../../assets/images/userDefault.png';
 import styles from './style.message';
 
 type ChatMessageProps = {
@@ -12,6 +11,7 @@ type ChatMessageProps = {
 }
 
 export default function ChatMessage(props: ChatMessageProps) {
+    const userDefault = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
     const { messages, myId } = props;
     const [width, setwidth] = useState<number>(0);
     const [infoUserName, setInfoUserName] = useState("")

@@ -18,10 +18,10 @@ const ChatListItem = (props: ChatRoomItem) => {
     useEffect(() => {
         const getOtherUser = async () => {
             const userInfo = await Auth.currentAuthenticatedUser();
-            if (chatRoom.users.items[0].user.id === userInfo.attributes.sub) {
-                setOtherUser(chatRoom.users.items[1].user);
+            if (chatRoom?.users.items[0]?.user.id === userInfo.attributes.sub) {
+                setOtherUser(chatRoom?.users.items[1]?.user);
             } else {
-                setOtherUser(chatRoom.users.items[0].user);
+                setOtherUser(chatRoom?.users.items[0]?.user);
             }
         }
         getOtherUser();
