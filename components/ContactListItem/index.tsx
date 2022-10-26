@@ -33,8 +33,8 @@ const ContactListItem = (props: ContactListItemProps) => {
         console.log("onPress");
         const existingChatRoom = await getCommonChatRoomWithUser(user.id);
         if (existingChatRoom) {
-            console.log("existingChatRoom");
-            navigation.navigate("ChatRoomScreen", { id: existingChatRoom.id, name: user.name });
+            console.log("existingChatRoom", existingChatRoom.chatRoom.id);
+            navigation.navigate("ChatRoomScreen", { id: existingChatRoom.chatRoom.id, name: user.name });
             return;
         }
         //  1. Create a new Chat Room

@@ -35,7 +35,7 @@ export default function ChatScreen({ navigation }: RootTabScreenProps<'Chats'>) 
 
 
       } catch (error) {
-        console.log(error);
+        console.log("ERROR",error);
         if (error.data) {
           // console.log("return data ChatScreen", error.data.getUser.ChatRooms.items);
           setChatRooms(error.data.getUser?.ChatRooms.items)

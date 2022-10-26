@@ -26,8 +26,8 @@ export default function ChatRoom() {
         console.log("FETCH MESSAGES")
         setMessages(messagesData.data.getChatRoom.Messages.items);
     }
-    console.log("messages",messages);
-    
+    console.log("messages", messages);
+
     useEffect(() => {
         fetchMessages();
     }, [])
@@ -45,12 +45,14 @@ export default function ChatRoom() {
             graphqlOperation(onCreateMessage)
         ).subscribe({
             next: (data) => {
-                // const newMessage = data.value.data.onCreateMessage;
-
-                // if (newMessage.userID !== route.params.id) {
-                //     console.log("Message is in another room!")
-                //     return;
-                // }
+                const newMessage = data.value.data.onCreateMessage;
+                console.log("newMessage", newMessage);
+                console.log("route.params.id",route.params.id);
+                
+                if (newMessage.chatroomID !== route.params.id) {
+                    console.log("Message is in another room!")
+                    return;
+                }
 
                 fetchMessages();
                 // setMessages([newMessage, ...messages]);
